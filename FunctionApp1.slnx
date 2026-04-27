@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="FunctionApp1/FunctionApp1.csproj" />
+  <Project Path="LearnItAllApi.Core1/LearnItAllApi.Core1.csproj" Id="bf7d7853-8bae-4f21-99fd-bf5ab6424615" />
+  <Project Path="LearnItAllApi.Infrastructure1/LearnItAllApi.Infrastructure1.csproj" Id="fdfeac44-bf37-4c21-9b00-41fc03fc3f08" />
+  <Project Path="LearnItAllApi.Models1/LearnItAllApi.Models1.csproj" Id="eb6be31a-17e3-483a-8b51-108de6bf32e2" />
+</Solution>
