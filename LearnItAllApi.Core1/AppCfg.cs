@@ -1,9 +1,10 @@
-﻿using LearnItAllApi.Infrastructure1.GoogleServices.AdMob;
+﻿using LearnItAllApi.Infrastructure1.FirebaseServices;
+using LearnItAllApi.Infrastructure1.GoogleServices.AdMob;
 using LearnItAllApi.Infrastructure1.GoogleServices.Billing;
 
 namespace LearnItAllApi.Core1;
 
-public class AppCfg : IGAdMobCfg, IGBillingCfg
+public class AppCfg : IGAdMobCfg, IGBillingCfg, IFirebaseCfg
 {
     public string AppId                { get; init; } = string.Empty;
     public string BannerAdUnitId       { get; init; } = string.Empty;
@@ -14,4 +15,7 @@ public class AppCfg : IGAdMobCfg, IGBillingCfg
     public string PackageName          { get; init; } = string.Empty;
     public string ServiceAccountJson   { get; init; } = string.Empty;
     public string PublisherAccountId   { get; init; } = string.Empty;
+    public string ApiKey               { get; init; } = string.Empty;
+    public string AuthDomain           { get; init; } = string.Empty;
+    public string DatabaseUrl          { get; init; } = string.Empty;
 }

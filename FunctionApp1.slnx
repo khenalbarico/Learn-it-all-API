@@ -3,4 +3,5 @@
   <Project Path="LearnItAllApi.Core1/LearnItAllApi.Core1.csproj" Id="bf7d7853-8bae-4f21-99fd-bf5ab6424615" />
   <Project Path="LearnItAllApi.DTO1/LearnItAllApi.DTO1.csproj" Id="961c6363-b19d-46bb-b4a8-8edd2ac149d2" />
   <Project Path="LearnItAllApi.Infrastructure1/LearnItAllApi.Infrastructure1.csproj" Id="fdfeac44-bf37-4c21-9b00-41fc03fc3f08" />
+  <Project Path="TestProject1/TestProject1.csproj" Id="3c2fde87-74c8-4d48-9b93-78655708c0f5" />
 </Solution>

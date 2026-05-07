@@ -2,7 +2,7 @@
 
 public interface IFirebaseCfg
 {
-    string ApiKey      { get; set; }
-    string AuthDomain  { get; set; }
-    string DatabaseUrl { get; set; }
+    string ApiKey      { get; init; }
+    string AuthDomain  { get; init; }
+    string DatabaseUrl { get; init; }
 }

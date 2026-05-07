@@ -24,9 +24,11 @@ public static class ServiceRegistry
 
         cfg.GetSection("GoogleAdMob").Bind(appCfg);
         cfg.GetSection("GoogleBilling").Bind(appCfg);
+        cfg.GetSection("Firebase").Bind(appCfg);
 
         svc.AddSingleton<IGAdMobCfg>(appCfg);
         svc.AddSingleton<IGBillingCfg>(appCfg);
+        svc.AddSingleton<IFirebaseCfg>(appCfg);
     }
 
     public static void AddSvcRegistry(IServiceCollection svc)
@@ -36,7 +38,6 @@ public static class ServiceRegistry
         svc.AddSingleton<IRelayDispatcher, RelayDispatcher>();
         svc.AddSingleton<IGAdMobService, GAdMobService>();
         svc.AddSingleton<IGBillingService, GBillingService>();
-        svc.AddSingleton<IFirebaseSessionStore, FirebaseSessionStore>();
     }
 
     public static void AddRelayServices(IServiceCollection svc)
