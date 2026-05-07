@@ -1,4 +1,4 @@
-﻿namespace LearnItAllApi.Models1;
+﻿namespace LearnItAllApi.DTO1.GetObjects;
 
 public class GetAllResponseCollection
 {

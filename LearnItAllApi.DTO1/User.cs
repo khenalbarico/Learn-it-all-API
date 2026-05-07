@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace LearnItAllApi.Models1;
+namespace LearnItAllApi.DTO1;
 
 public class User
 {

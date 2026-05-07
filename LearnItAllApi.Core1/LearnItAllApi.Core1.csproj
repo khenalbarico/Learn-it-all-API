@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LearnItAllApi.Infrastructure1\LearnItAllApi.Infrastructure1.csproj" />
-    <ProjectReference Include="..\LearnItAllApi.Models1\LearnItAllApi.Models1.csproj" />
   </ItemGroup>
 
 </Project>

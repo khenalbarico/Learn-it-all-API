@@ -1,4 +1,7 @@
-﻿using LearnItAllApi.Infrastructure1.ApiRelayer;
+﻿using LearnItAllApi.Core1.AppAuthentication;
+using LearnItAllApi.Core1.AppRepository;
+using LearnItAllApi.Infrastructure1.ApiRelayer;
+using LearnItAllApi.Infrastructure1.FirebaseServices;
 using LearnItAllApi.Infrastructure1.GoogleServices.AdMob;
 using LearnItAllApi.Infrastructure1.GoogleServices.Billing;
 using Microsoft.Extensions.Configuration;
@@ -33,11 +36,15 @@ public static class ServiceRegistry
         svc.AddSingleton<IRelayDispatcher, RelayDispatcher>();
         svc.AddSingleton<IGAdMobService, GAdMobService>();
         svc.AddSingleton<IGBillingService, GBillingService>();
+        svc.AddSingleton<IFirebaseSessionStore, FirebaseSessionStore>();
     }
 
     public static void AddRelayServices(IServiceCollection svc)
     {
         var relayRegistry = new RelayServiceRegistry();
         svc.AddSingleton(relayRegistry);
+
+        svc.AddRelaySingleton<IAppAuth, AppAuth>(relayRegistry);
+        svc.AddRelaySingleton<IAppRepos, AppRepos>(relayRegistry);
     }
 }

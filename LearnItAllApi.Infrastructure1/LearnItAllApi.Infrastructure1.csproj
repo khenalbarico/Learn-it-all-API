@@ -16,11 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LearnItAllApi.Models1\LearnItAllApi.Models1.csproj" />
+    <Folder Include="FirebaseServices\Storage\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="JwtToken\" />
+    <ProjectReference Include="..\LearnItAllApi.DTO1\LearnItAllApi.DTO1.csproj" />
   </ItemGroup>
 
 </Project>
