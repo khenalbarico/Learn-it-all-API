@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="FirebaseServices\Storage\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\LearnItAllApi.DTO1\LearnItAllApi.DTO1.csproj" />
   </ItemGroup>
 

@@ -18,4 +18,5 @@ public class AppCfg : IGAdMobCfg, IGBillingCfg, IFirebaseCfg
     public string ApiKey               { get; init; } = string.Empty;
     public string AuthDomain           { get; init; } = string.Empty;
     public string DatabaseUrl          { get; init; } = string.Empty;
+    public string StorageBucket        { get; init; } = string.Empty;
 }
