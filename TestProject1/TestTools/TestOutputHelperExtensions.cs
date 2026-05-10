@@ -1,6 +1,7 @@
-﻿using LearnItAllApi.Core1;
-using LearnItAllApi.Infrastructure1.FirebaseServices;
+﻿using LearnItAllApi.Infrastructure1.FirebaseServices;
 using LearnItAllApi.Infrastructure1.FirebaseServices.Authentication;
+using LearnItAllApi.Infrastructure1.FirebaseServices.RealtimeDatabase;
+using LearnItAllApi.Infrastructure1.FirebaseServices.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,6 +32,8 @@ internal static class TestOutputHelperExtensions
                 svc.AddSingleton<IFirebaseCfg>(testCfg);
 
                 svc.AddSingleton<IFirebaseAuth, FirebaseAuth>();
+                svc.AddSingleton<IFirebaseRealtimeDb, FirebaseRealtimeDb1>();
+                svc.AddSingleton<IFirebaseStorage, FirebaseStorage>();
             })
             .Build();
 

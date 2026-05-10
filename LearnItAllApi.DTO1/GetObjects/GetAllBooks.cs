@@ -1,4 +1,6 @@
-﻿namespace LearnItAllApi.DTO1.GetObjects;
+﻿using LearnItAllApi.DTO1.Books;
+
+namespace LearnItAllApi.DTO1.GetObjects;
 
 public class GetAllBooks
 {

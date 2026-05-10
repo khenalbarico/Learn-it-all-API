@@ -1,6 +1,5 @@
-﻿using LearnItAllApi.Core1.AppAuthentication;
-using LearnItAllApi.Core1.AppRepository;
-using LearnItAllApi.Core1.AppStorageService;
+﻿using LearnItAllApi.Core1.Services.AppAuthentication;
+using LearnItAllApi.Core1.Services.AppRepository;
 using LearnItAllApi.Infrastructure1.ApiRelayer;
 using LearnItAllApi.Infrastructure1.FirebaseServices;
 using LearnItAllApi.Infrastructure1.FirebaseServices.Authentication;
@@ -57,7 +56,6 @@ public static class ServiceRegistry
         svc.AddSingleton(relayRegistry);
 
         svc.AddRelaySingleton<IAppAuth, AppAuth>(relayRegistry);
-        svc.AddRelaySingleton<IAppRepos, AppRepos>(relayRegistry);
-        svc.AddRelaySingleton<IAppStorage, AppStorage>(relayRegistry);
+        svc.AddRelaySingleton<IAppRepository, AppRepository>(relayRegistry);
     }
 }
