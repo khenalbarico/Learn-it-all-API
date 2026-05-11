@@ -1,4 +1,4 @@
-﻿using LearnItAllApi.DTO1.GetAuthUser;
+﻿using LearnItAllApi.DTO1.Users;
 
 namespace LearnItAllApi.Core1.Services.AppAuthentication;
 

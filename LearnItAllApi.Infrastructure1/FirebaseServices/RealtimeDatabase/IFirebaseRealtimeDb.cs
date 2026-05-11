@@ -6,11 +6,14 @@ public interface IFirebaseRealtimeDb
 {
     Task<T> GetAsync<T>(params string[] childPaths);
 
-    Task<T> GetAsync<T>(
+    Task<T> GetAuthAsync<T>(
         string userId,
         params string[] childPaths);
 
-    Task<List<T>> GetListAsync<T>(
+    Task<List<T>> GetListAsync<T>(params string[] childPaths)
+    where T : class, new();
+
+    Task<List<T>> GetAuthListAsync<T>(
         string userId,
         params string[] childPaths) where T : class, new();
 

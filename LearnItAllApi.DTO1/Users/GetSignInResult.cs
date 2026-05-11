@@ -1,4 +1,4 @@
-﻿namespace LearnItAllApi.DTO1.GetAuthUser;
+﻿namespace LearnItAllApi.DTO1.Users;
 
 public record GetSignInResult(
     string UserId,

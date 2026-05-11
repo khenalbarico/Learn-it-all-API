@@ -27,11 +27,26 @@ public class AppRepository(IFirebaseRealtimeDb _db) : IAppRepository
     {
         if (string.IsNullOrWhiteSpace(idToken))
             throw new UnauthorizedAccessException("ID token is required to access user data.");
-
-        await _db.PostAsync(user, idToken, "Users");
+        try
+        {
+            await _db.PostAsync(user, idToken, "Users");
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 
     public async Task<IEnumerable<Book>> GetAllBooksAsync()
-        => await _db.GetAsync<IEnumerable<Book>>("Books");
-    
+    {
+        try
+        {
+            return await _db.GetListAsync<Book>("Books", "CollegeCourses");
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+
 }

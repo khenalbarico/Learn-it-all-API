@@ -33,10 +33,28 @@ public class FirebaseRealtimeDb1(IFirebaseCfg _cfg) : IFirebaseRealtimeDb
     public async Task<T> GetAsync<T>(params string[] childPaths)
         => await BuildQuery(childPaths).OnceSingleAsync<T>();
 
-    public async Task<T> GetAsync<T>(string idToken, params string[] childPaths)
+    public async Task<T> GetAuthAsync<T>(string idToken, params string[] childPaths)
         => await BuildQuery(idToken, childPaths).OnceSingleAsync<T>();
 
-    public async Task<List<T>> GetListAsync<T>(string idToken, params string[] childPaths)
+    public async Task<List<T>> GetListAsync<T>(params string[] childPaths)
+    where T : class, new()
+    {
+        var items = await BuildQuery(childPaths).OnceAsync<T>();
+
+        return [.. items.Select(x =>
+    {
+        var value = x.Object ?? new T();
+
+        var uidProp = typeof(T).GetProperty("Uid");
+
+        if (uidProp is not null && uidProp.CanWrite)
+            uidProp.SetValue(value, x.Key);
+
+        return value;
+    })];
+    }
+
+    public async Task<List<T>> GetAuthListAsync<T>(string idToken, params string[] childPaths)
         where T : class, new()
     {
         var items = await BuildQuery(idToken, childPaths).OnceAsync<T>();
