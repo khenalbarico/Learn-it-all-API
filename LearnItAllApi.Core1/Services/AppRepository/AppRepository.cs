@@ -1,5 +1,6 @@
 ﻿using LearnItAllApi.DTO1.Books;
 using LearnItAllApi.DTO1.Users;
+using LearnItAllApi.Infrastructure1.FirebaseServices.FirebaseErrors;
 using LearnItAllApi.Infrastructure1.FirebaseServices.RealtimeDatabase;
 
 namespace LearnItAllApi.Core1.Services.AppRepository;
@@ -14,12 +15,11 @@ public class AppRepository(IFirebaseRealtimeDb _db) : IAppRepository
         try
         {
             var user = await _db.GetAsync<AppUser>(idToken, "Users", uid);
-
             return string.IsNullOrWhiteSpace(user?.Uid) ? null : user;
         }
         catch
         {
-            return null;
+            return null; 
         }
     }
 
@@ -27,13 +27,19 @@ public class AppRepository(IFirebaseRealtimeDb _db) : IAppRepository
     {
         if (string.IsNullOrWhiteSpace(idToken))
             throw new UnauthorizedAccessException("ID token is required to access user data.");
+
         try
         {
             await _db.PostAsync(user, idToken, "Users");
         }
+        catch (FirebaseRealtimeDbException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
-            throw new Exception(ex.Message);
+            FirebaseErrorHandler.ThrowRealtimeDb(ex);
+            throw;
         }
     }
 
@@ -43,10 +49,14 @@ public class AppRepository(IFirebaseRealtimeDb _db) : IAppRepository
         {
             return await _db.GetListAsync<Book>("Books", "CollegeCourses");
         }
-        catch(Exception ex)
+        catch (FirebaseRealtimeDbException)
         {
-            throw new Exception(ex.Message);
+            throw;
+        }
+        catch (Exception ex)
+        {
+            FirebaseErrorHandler.ThrowRealtimeDb(ex);
+            throw;
         }
     }
-
 }
