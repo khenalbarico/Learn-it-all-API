@@ -4,6 +4,8 @@ namespace LearnItAllApi.Infrastructure1.FirebaseServices.RealtimeDatabase;
 
 public interface IFirebaseRealtimeDb
 {
+    Task<T> GetAsync<T>(params string[] childPaths);
+
     Task<T> GetAsync<T>(
         string userId,
         params string[] childPaths);

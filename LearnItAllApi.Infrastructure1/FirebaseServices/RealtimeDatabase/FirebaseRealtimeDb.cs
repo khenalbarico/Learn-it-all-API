@@ -6,6 +6,7 @@ namespace LearnItAllApi.Infrastructure1.FirebaseServices.RealtimeDatabase;
 
 public class FirebaseRealtimeDb1(IFirebaseCfg _cfg) : IFirebaseRealtimeDb
 {
+    //---> Authenticated build
     ChildQuery BuildQuery(string idToken, params string[] childPaths)
     {
         var client = _cfg.CreateDbClient(idToken);
@@ -16,6 +17,21 @@ public class FirebaseRealtimeDb1(IFirebaseCfg _cfg) : IFirebaseRealtimeDb
 
         return query;
     }
+
+    //---> Unauthenticated build
+    ChildQuery BuildQuery(params string[] childPaths)
+    {
+        var client = _cfg.CreateDbClient();
+        var query = client.Child(childPaths[0]);
+
+        for (int i = 1; i < childPaths.Length; i++)
+            query = query.Child(childPaths[i]);
+
+        return query;
+    }
+
+    public async Task<T> GetAsync<T>(params string[] childPaths)
+        => await BuildQuery(childPaths).OnceSingleAsync<T>();
 
     public async Task<T> GetAsync<T>(string idToken, params string[] childPaths)
         => await BuildQuery(idToken, childPaths).OnceSingleAsync<T>();

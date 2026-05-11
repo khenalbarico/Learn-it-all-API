@@ -1,4 +1,5 @@
-﻿using LearnItAllApi.DTO1.Users;
+﻿using LearnItAllApi.DTO1.Books;
+using LearnItAllApi.DTO1.Users;
 using LearnItAllApi.Infrastructure1.FirebaseServices.RealtimeDatabase;
 
 namespace LearnItAllApi.Core1.Services.AppRepository;
@@ -29,4 +30,8 @@ public class AppRepository(IFirebaseRealtimeDb _db) : IAppRepository
 
         await _db.PostAsync(user, idToken, "Users");
     }
+
+    public async Task<IEnumerable<Book>> GetAllBooksAsync()
+        => await _db.GetAsync<IEnumerable<Book>>("Books");
+    
 }

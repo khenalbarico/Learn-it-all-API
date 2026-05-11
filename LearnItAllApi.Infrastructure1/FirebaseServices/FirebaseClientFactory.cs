@@ -25,4 +25,9 @@ internal static class FirebaseClientFactory
                 AuthTokenAsyncFactory = () => Task.FromResult(idToken)
             });
     }
+
+    public static FirebaseClient CreateDbClient(this IFirebaseCfg cfg)
+    {
+        return new FirebaseClient(cfg.DatabaseUrl);
+    }
 }
