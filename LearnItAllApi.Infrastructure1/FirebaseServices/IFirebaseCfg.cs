@@ -6,4 +6,5 @@ public interface IFirebaseCfg
     string AuthDomain    { get; init; }
     string DatabaseUrl   { get; init; }
     string StorageBucket { get; init; }
+    string ProjectId     { get; init; }
 }

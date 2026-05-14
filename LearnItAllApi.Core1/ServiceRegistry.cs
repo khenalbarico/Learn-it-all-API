@@ -4,6 +4,8 @@ using LearnItAllApi.Core1.Services.AppStorage;
 using LearnItAllApi.Infrastructure1.ApiRelayer;
 using LearnItAllApi.Infrastructure1.FirebaseServices;
 using LearnItAllApi.Infrastructure1.FirebaseServices.Authentication;
+using LearnItAllApi.Infrastructure1.FirebaseServices.FirestoreDatabase;
+using LearnItAllApi.Infrastructure1.FirebaseServices.FireStoreDatabase;
 using LearnItAllApi.Infrastructure1.FirebaseServices.RealtimeDatabase;
 using LearnItAllApi.Infrastructure1.FirebaseServices.Storage;
 using LearnItAllApi.Infrastructure1.GoogleServices.AdMob;
@@ -49,6 +51,7 @@ public static class ServiceRegistry
         svc.AddSingleton<IFirebaseAuth, FirebaseAuth>();
         svc.AddSingleton<IFirebaseRealtimeDb, FirebaseRealtimeDb1>();
         svc.AddSingleton<IFirebaseStorage, FirebaseStorage>();
+        svc.AddSingleton<IFirebaseFirestoreDb, FirebaseFirestoreDb>();
     }
 
     public static void AddRelayServices(IServiceCollection svc)
