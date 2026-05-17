@@ -5,8 +5,8 @@ using System.Text.Json;
 namespace LearnItAllApi.Infrastructure1.ApiRelayer;
 
 public sealed class RelayDispatcher(
-                    IServiceProvider     _services,
-                    RelayServiceRegistry _registry) : IRelayDispatcher
+    IServiceProvider _services,
+    RelayServiceRegistry _registry) : IRelayDispatcher
 {
     static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
@@ -20,7 +20,14 @@ public sealed class RelayDispatcher(
             ?? throw new InvalidOperationException(
                 $"Method '{request.MethodName}' not found on '{request.ClassName}'.");
 
-        var result = method.Invoke(service, BuildArguments(method, request.Payload, ct));
+        var attr = method.GetCustomAttribute<RelayAuthorizeAttribute>()
+            ?? throw new UnauthorizedAccessException(
+                $"Method '{request.MethodName}' is not relay-accessible.");
+
+        if (!attr.AllowAnonymous && request.VerifiedUid is null)
+            throw new UnauthorizedAccessException("Authentication required.");
+
+        var result = method.Invoke(service, BuildArguments(method, request.Payload, request.VerifiedUid, ct));
 
         if (result is not Task task)
             return result;
@@ -32,7 +39,7 @@ public sealed class RelayDispatcher(
             : null;
     }
 
-    private static object?[] BuildArguments(MethodInfo method, JsonElement? payload, CancellationToken ct)
+    private static object?[] BuildArguments(MethodInfo method, JsonElement? payload, string? verifiedUid, CancellationToken ct)
     {
         var parameters = method.GetParameters();
         if (parameters.Length == 0) return [];
@@ -47,6 +54,12 @@ public sealed class RelayDispatcher(
             if (param.ParameterType == typeof(CancellationToken))
             {
                 args[i] = ct;
+                continue;
+            }
+
+            if (param.Name == "verifiedUid" && param.ParameterType == typeof(string))
+            {
+                args[i] = verifiedUid;
                 continue;
             }
 

@@ -9,7 +9,7 @@ public class FirebaseFirestoreDb(IFirebaseCfg _cfg) : IFirebaseFirestoreDb
     {
         if (pathSegments.Length < 1) throw new ArgumentException("At least one path segment required.");
 
-        DocumentReference? docRef   = null;
+        DocumentReference? docRef = null;
         CollectionReference? colRef = null;
 
         for (int i = 0; i < pathSegments.Length; i++)
@@ -28,7 +28,7 @@ public class FirebaseFirestoreDb(IFirebaseCfg _cfg) : IFirebaseFirestoreDb
     {
         if (pathSegments.Length < 2) throw new ArgumentException("At least two path segments required for a document.");
 
-        DocumentReference? docRef   = null;
+        DocumentReference? docRef = null;
         CollectionReference? colRef = null;
 
         for (int i = 0; i < pathSegments.Length; i++)
@@ -45,48 +45,20 @@ public class FirebaseFirestoreDb(IFirebaseCfg _cfg) : IFirebaseFirestoreDb
 
     public async Task<T?> GetAsync<T>(params string[] pathSegments) where T : class
     {
-        var db       = _cfg.CreateFirestoreClient();
-        var docRef   = BuildDocumentRef(db, pathSegments);
+        var db = _cfg.CreateFirestoreClient();
+        var docRef = BuildDocumentRef(db, pathSegments);
         var snapshot = await docRef.GetSnapshotAsync();
 
         if (!snapshot.Exists) return null;
         var result = snapshot.ConvertTo<T>();
         SetDocumentId(result, snapshot.Id);
-
-        return result;
-    }
-
-    public async Task<T?> GetAuthAsync<T>(string idToken, params string[] pathSegments) where T : class
-    {
-        var db       = _cfg.CreateFirestoreClient(idToken);
-        var docRef   = BuildDocumentRef(db, pathSegments);
-        var snapshot = await docRef.GetSnapshotAsync();
-
-        if (!snapshot.Exists) return null;
-        var result = snapshot.ConvertTo<T>();
-        SetDocumentId(result, snapshot.Id);
-
         return result;
     }
 
     public async Task<List<T>> GetListAsync<T>(params string[] pathSegments) where T : class, new()
     {
-        var db        = _cfg.CreateFirestoreClient();
-        var colRef    = BuildCollectionRef(db, pathSegments);
-        var snapshots = await colRef.GetSnapshotAsync();
-
-        return [.. snapshots.Documents.Select(doc =>
-        {
-            var item = doc.ConvertTo<T>() ?? new T();
-            SetDocumentId(item, doc.Id);
-            return item;
-        })];
-    }
-
-    public async Task<List<T>> GetAuthListAsync<T>(string idToken, params string[] pathSegments) where T : class, new()
-    {
-        var db        = _cfg.CreateFirestoreClient(idToken);
-        var colRef    = BuildCollectionRef(db, pathSegments);
+        var db = _cfg.CreateFirestoreClient();
+        var colRef = BuildCollectionRef(db, pathSegments);
         var snapshots = await colRef.GetSnapshotAsync();
 
         return [.. snapshots.Documents.Select(doc =>
@@ -99,35 +71,16 @@ public class FirebaseFirestoreDb(IFirebaseCfg _cfg) : IFirebaseFirestoreDb
 
     public async Task<string> PostAsync<T>(T item, params string[] pathSegments) where T : class
     {
-        var db     = _cfg.CreateFirestoreClient();
+        var db = _cfg.CreateFirestoreClient();
         var colRef = BuildCollectionRef(db, pathSegments);
         var docRef = await colRef.AddAsync(item);
-
-        return docRef.Id;
-    }
-
-    public async Task<string> PostAuthAsync<T>(T item, string idToken, params string[] pathSegments) where T : class
-    {
-        var db     = _cfg.CreateFirestoreClient(idToken);
-        var colRef = BuildCollectionRef(db, pathSegments);
-        var docRef = await colRef.AddAsync(item);
-
         return docRef.Id;
     }
 
     public async Task PutAsync<T>(T item, params string[] pathSegments) where T : class
     {
-        var db     = _cfg.CreateFirestoreClient();
+        var db = _cfg.CreateFirestoreClient();
         var docRef = BuildDocumentRef(db, pathSegments);
-
-        await docRef.SetAsync(item);
-    }
-
-    public async Task PutAuthAsync<T>(T item, string idToken, params string[] pathSegments) where T : class
-    {
-        var db     = _cfg.CreateFirestoreClient(idToken);
-        var docRef = BuildDocumentRef(db, pathSegments);
-
         await docRef.SetAsync(item);
     }
 
@@ -135,35 +88,15 @@ public class FirebaseFirestoreDb(IFirebaseCfg _cfg) : IFirebaseFirestoreDb
     {
         if (updates is null || updates.Count == 0) return;
 
-        var db     = _cfg.CreateFirestoreClient();
+        var db = _cfg.CreateFirestoreClient();
         var docRef = BuildDocumentRef(db, pathSegments);
-
-        await docRef.UpdateAsync(updates!);
-    }
-
-    public async Task PatchAuthAsync(Dictionary<string, object?> updates, string idToken, params string[] pathSegments)
-    {
-        if (updates is null || updates.Count == 0) return;
-
-        var db     = _cfg.CreateFirestoreClient(idToken);
-        var docRef = BuildDocumentRef(db, pathSegments);
-
         await docRef.UpdateAsync(updates!);
     }
 
     public async Task DeleteAsync(params string[] pathSegments)
     {
-        var db     = _cfg.CreateFirestoreClient();
+        var db = _cfg.CreateFirestoreClient();
         var docRef = BuildDocumentRef(db, pathSegments);
-
-        await docRef.DeleteAsync();
-    }
-
-    public async Task DeleteAuthAsync(string idToken, params string[] pathSegments)
-    {
-        var db     = _cfg.CreateFirestoreClient(idToken);
-        var docRef = BuildDocumentRef(db, pathSegments);
-
         await docRef.DeleteAsync();
     }
 

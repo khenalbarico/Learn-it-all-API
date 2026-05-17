@@ -8,7 +8,7 @@ public class Function1(IApiRelay _relay)
 {
     [Function("Relay")]
     public Task<HttpResponseData> Relay(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "relay")] HttpRequestData req,
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "relay")] HttpRequestData req,
         FunctionContext context)
         => _relay.GetResponse(req, context.CancellationToken);
 }

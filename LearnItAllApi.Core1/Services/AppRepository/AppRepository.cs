@@ -7,30 +7,25 @@ namespace LearnItAllApi.Core1.Services.AppRepository;
 
 public class AppRepository(IFirebaseRealtimeDb _db) : IAppRepository
 {
-    public async Task<AppUser?> TryGetAppUser(string idToken, string uid)
+    public async Task<AppUser?> TryGetAppUser(string verifiedUid)
     {
-        if (string.IsNullOrWhiteSpace(idToken))
-            throw new UnauthorizedAccessException("ID token is required to access user data.");
-
         try
         {
-            var user = await _db.GetAsync<AppUser>(idToken, "Users", uid);
+            var user = await _db.GetAsync<AppUser>("Users", verifiedUid);
             return string.IsNullOrWhiteSpace(user?.Uid) ? null : user;
         }
         catch
         {
-            return null; 
+            return null;
         }
     }
 
-    public async Task SaveAppUser(string idToken, AppUser user)
+    public async Task SaveAppUser(string verifiedUid, AppUser user)
     {
-        if (string.IsNullOrWhiteSpace(idToken))
-            throw new UnauthorizedAccessException("ID token is required to access user data.");
-
         try
         {
-            await _db.PostAsync(user, idToken, "Users");
+            user.Uid = verifiedUid;
+            await _db.PutAsync(user, "Users", verifiedUid);
         }
         catch (FirebaseRealtimeDbException)
         {

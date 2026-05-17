@@ -8,4 +8,5 @@ public class TestCfg : IFirebaseCfg
     public string AuthDomain     { get; init; } = string.Empty;
     public string DatabaseUrl    { get; init; } = string.Empty;
     public string StorageBucket  { get; init; } = string.Empty;
+    public string ProjectId      { get; init; } = string.Empty;
 }

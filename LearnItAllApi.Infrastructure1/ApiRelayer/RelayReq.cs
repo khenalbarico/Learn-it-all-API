@@ -4,7 +4,8 @@ namespace LearnItAllApi.Infrastructure1.ApiRelayer;
 
 public sealed class RelayReq
 {
-    public string       ClassName  { get; init; } = string.Empty;
-    public string       MethodName { get; init; } = string.Empty;
-    public JsonElement? Payload    { get; init; }
+    public string       ClassName   { get; set; } = string.Empty;
+    public string       MethodName  { get; set; } = string.Empty;
+    public JsonElement? Payload     { get; set; }
+    public string?      VerifiedUid { get; set; }
 }
