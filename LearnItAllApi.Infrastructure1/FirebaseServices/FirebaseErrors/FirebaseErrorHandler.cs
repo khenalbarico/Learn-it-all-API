@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using Grpc.Core;
+using System.Text.Json;
 
 namespace LearnItAllApi.Infrastructure1.FirebaseServices.FirebaseErrors;
 
@@ -46,5 +47,17 @@ public static class FirebaseErrorHandler
     {
         var code = ExtractFirebaseCode(ex.Message);
         throw new FirebaseStorageException(FirebaseCustomStorageErrors.Translate(code));
+    }
+
+    public static void ThrowFirestore(Exception ex)
+    {
+        if (ex is RpcException rpc)
+        {
+            var msg = FirebaseCustomFirestoreErrors.Translate(rpc.StatusCode.ToString());
+            throw new FirebaseFirestoreDbException(msg);
+        }
+
+        var fallback = FirebaseCustomFirestoreErrors.Translate(ex.Message);
+        throw new FirebaseFirestoreDbException(fallback);
     }
 }

@@ -13,5 +13,14 @@ public interface IAppRepository
     Task SaveAppUser(string verifiedUid, AppUser user);
 
     [RelayAuthorize]
-    Task<IEnumerable<Book>> GetAllBooksAsync();
+    Task<IEnumerable<Book>> GetAllBooksAsync(string category);
+
+    [RelayAuthorize]
+    Task<Book?> GetBookAsync(string category, string bookUid);
+
+    [RelayAuthorize]
+    Task AddToLibraryAsync(string verifiedUid, LibraryEntry entry);
+
+    [RelayAuthorize]
+    Task<bool> UserOwnsBookAsync(string verifiedUid, string bookUid);
 }

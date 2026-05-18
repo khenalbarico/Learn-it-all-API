@@ -1,13 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Google.Cloud.Firestore;
 
 namespace LearnItAllApi.DTO1.Books;
 
+[FirestoreData]
 public class Book
 {
-    [Required] public string         Uid         { get; set; } = "";
-               public string         Category    { get; set; } = "";
-               public string         ImageUrl    { get; set; } = "";
-               public string         Title       { get; set; } = "";
-               public string         Description { get; set; } = "";
-               public decimal        Price       { get; set; }
+    [Required]
+    [FirestoreProperty] public string  Uid         { get; set; } = "";
+    [FirestoreProperty] public string  Category    { get; set; } = "";
+    [FirestoreProperty] public string  Title       { get; set; } = "";
+    [FirestoreProperty] public string  Description { get; set; } = "";
+    [FirestoreProperty] public decimal Price       { get; set; }
 }

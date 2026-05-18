@@ -8,6 +8,7 @@
     "Firebase:AuthDomain": "learnitallapp.firebaseapp.com",
     "Firebase:DatabaseUrl": "https://learnitallapp-default-rtdb.asia-southeast1.firebasedatabase.app/",
     "Firebase:StorageBucket": "learnitallapp.firebasestorage.app",
-    "Firebase:ProjectId": "learnitallapp"
+    "Firebase:ProjectId": "learnitallapp",
+    "GOOGLE_APPLICATION_CREDENTIALS": "Secrets/learnitallapp-firebase-adminsdk-fbsvc-8a7ee21c3d.json"
   }
 }

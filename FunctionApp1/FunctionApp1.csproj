@@ -21,4 +21,10 @@
     <ProjectReference Include="..\LearnItAllApi.Core1\LearnItAllApi.Core1.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Secrets\learnitallapp-firebase-adminsdk-fbsvc-8a7ee21c3d.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

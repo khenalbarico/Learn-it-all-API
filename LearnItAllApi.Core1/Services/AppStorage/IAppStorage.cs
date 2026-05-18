@@ -15,4 +15,10 @@ public interface IAppStorage
 
     [RelayAuthorize]
     Task DeleteAsync(string idToken, params string[] pathSegments);
+
+    [RelayAuthorize]
+    Task<Stream> GetBookStreamAsync(string verifiedUid, string bookUid);
+
+    [RelayAuthorize]
+    Task<string> GetCoverImageUrlAsync(string bookUid);
 }

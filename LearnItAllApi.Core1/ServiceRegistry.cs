@@ -1,4 +1,6 @@
-﻿using LearnItAllApi.Core1.Services.AppAuthentication;
+﻿using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
+using LearnItAllApi.Core1.Services.AppAuthentication;
 using LearnItAllApi.Core1.Services.AppRepository;
 using LearnItAllApi.Core1.Services.AppStorage;
 using LearnItAllApi.Infrastructure1.ApiRelayer;
@@ -20,6 +22,7 @@ public static class ServiceRegistry
     public static void RegisterServices(this IServiceCollection svc, IConfiguration cfg)
     {
         AddAppCfg(svc, cfg);
+        InitFirebase();
         AddSvcRegistry(svc);
         AddRelayServices(svc);
     }
@@ -37,11 +40,22 @@ public static class ServiceRegistry
         svc.AddSingleton<IFirebaseCfg>(appCfg);
     }
 
+    public static void InitFirebase()
+    {
+        if (FirebaseApp.DefaultInstance != null) return;
+
+        FirebaseApp.Create(new AppOptions
+        {
+            Credential = GoogleCredential.GetApplicationDefault()
+        });
+    }
+
     public static void AddSvcRegistry(IServiceCollection svc)
     {
         svc.AddHttpClient();
         svc.AddSingleton<IApiRelay, ApiRelay>();
         svc.AddSingleton<IRelayDispatcher, RelayDispatcher>();
+        svc.AddSingleton<IFirebaseTokenVerifier, FirebaseTokenVerifier>();
 
         //Google Services
         svc.AddSingleton<IGAdMobService, GAdMobService>();

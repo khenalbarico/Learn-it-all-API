@@ -14,7 +14,8 @@ public class FirebaseStorage(IFirebaseCfg _cfg, HttpClient _httpClient) : IFireb
     HttpRequestMessage BuildRequest(HttpMethod method, string url, string idToken, HttpContent? content = null)
     {
         var req = new HttpRequestMessage(method, url);
-        req.Headers.Authorization = new AuthenticationHeaderValue("Firebase", idToken);
+        if (!string.IsNullOrWhiteSpace(idToken))
+            req.Headers.Authorization = new AuthenticationHeaderValue("Firebase", idToken);
         if (content is not null) req.Content = content;
         return req;
     }
