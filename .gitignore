@@ -49,3 +49,5 @@ coverage/
 *.temp
 /CommonLib1/appsettings.json
 /TestProject1/testsettings.json
+/FunctionApp1/Secrets/learnitallapp-firebase-adminsdk-fbsvc-8a7ee21c3d.json
+/FunctionApp1/local.settings.json
