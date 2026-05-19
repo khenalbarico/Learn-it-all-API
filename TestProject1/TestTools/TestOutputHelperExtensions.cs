@@ -1,5 +1,12 @@
-﻿using LearnItAllApi.Infrastructure1.FirebaseServices;
+﻿using FirebaseAdmin;
+using LearnItAllApi.Core1.Services.AppAuthentication;
+using LearnItAllApi.Core1.Services.AppRepository;
+using LearnItAllApi.Core1.Services.AppStorage;
+using LearnItAllApi.Infrastructure1.ApiRelayer;
+using LearnItAllApi.Infrastructure1.FirebaseServices;
 using LearnItAllApi.Infrastructure1.FirebaseServices.Authentication;
+using LearnItAllApi.Infrastructure1.FirebaseServices.FirestoreDatabase;
+using LearnItAllApi.Infrastructure1.FirebaseServices.FireStoreDatabase;
 using LearnItAllApi.Infrastructure1.FirebaseServices.RealtimeDatabase;
 using LearnItAllApi.Infrastructure1.FirebaseServices.Storage;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +23,7 @@ internal static class TestOutputHelperExtensions
     internal static T Get<T>(this ITestOutputHelper ctx) where T : class
     {
         Host ??= new HostBuilder()
-            .ConfigureAppConfiguration((hostCtx, cfgBuilder) =>
+            .ConfigureAppConfiguration((_, cfgBuilder) =>
             {
                 cfgBuilder
                     .SetBasePath(AppContext.BaseDirectory)
@@ -24,19 +31,54 @@ internal static class TestOutputHelperExtensions
             })
             .ConfigureServices((hostCtx, svc) =>
             {
-                svc.AddHttpClient();
+                var cfg = hostCtx.Configuration;
 
-                var testCfg = new TestCfg();
-
-                hostCtx.Configuration.GetSection("Firebase").Bind(testCfg);
-                svc.AddSingleton<IFirebaseCfg>(testCfg);
-
-                svc.AddSingleton<IFirebaseAuth, FirebaseAuth>();
-                svc.AddSingleton<IFirebaseRealtimeDb, FirebaseRealtimeDb1>();
-                svc.AddSingleton<IFirebaseStorage, FirebaseStorage>();
+                AddTestCfg(svc, cfg);
+                InitFirebase(cfg);
+                AddSvcRegistry(svc);
+                AddRelayServices(svc);
             })
             .Build();
 
         return Host.Services.GetRequiredService<T>();
+    }
+
+    static void AddTestCfg(IServiceCollection svc, IConfiguration cfg)
+    {
+        var testCfg = new TestCfg();
+        cfg.GetSection("Firebase").Bind(testCfg);
+        svc.AddSingleton<IFirebaseCfg>(testCfg);
+    }
+
+    static void InitFirebase(IConfiguration cfg)
+    {
+        if (FirebaseApp.DefaultInstance != null) return;
+
+        var testCfg = new TestCfg();
+        cfg.GetSection("Firebase").Bind(testCfg);
+
+        FirebaseApp.Create(new AppOptions
+        {
+            Credential = FirebaseClientFactory.ResolveCredential(testCfg.GoogleApplicationCredentials)
+        });
+    }
+
+    static void AddSvcRegistry(IServiceCollection svc)
+    {
+        svc.AddHttpClient();
+        svc.AddSingleton<IFirebaseAuth, FirebaseAuth>();
+        svc.AddSingleton<IFirebaseRealtimeDb, FirebaseRealtimeDb1>();
+        svc.AddSingleton<IFirebaseStorage, FirebaseStorage>();
+        svc.AddSingleton<IFirebaseFirestoreDb, FirebaseFirestoreDb>();
+    }
+
+    static void AddRelayServices(IServiceCollection svc)
+    {
+        var relayRegistry = new RelayServiceRegistry();
+        svc.AddSingleton(relayRegistry);
+
+        svc.AddRelaySingleton<IAppAuth, AppAuth>(relayRegistry);
+        svc.AddRelaySingleton<IAppRepository, AppRepository>(relayRegistry);
+        svc.AddRelaySingleton<IAppStorage, AppStorage>(relayRegistry);
     }
 }

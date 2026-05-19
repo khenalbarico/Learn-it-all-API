@@ -38,6 +38,9 @@
     <None Update="TestFiles\CollegeCourses\InformationSystem\INFORMATION SYSTEM.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="TestFiles\Secrets\learnitallapp-firebase-adminsdk-fbsvc-8a7ee21c3d.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="testsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

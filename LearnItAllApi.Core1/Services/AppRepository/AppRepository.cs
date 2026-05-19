@@ -108,4 +108,21 @@ public class AppRepository(
             return false;
         }
     }
+
+    public async Task AddBookMetadata(Book book)
+    {
+        try
+        {
+            await _firestore.PutAsync(book, "Books", book.Category, book.Uid);
+        }
+        catch (FirebaseFirestoreDbException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            FirebaseErrorHandler.ThrowFirestore(ex);
+            throw;
+        }
+    }
 }

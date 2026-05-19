@@ -2,9 +2,10 @@
 
 public interface IFirebaseCfg
 {
-    string ApiKey        { get; init; }
-    string AuthDomain    { get; init; }
-    string DatabaseUrl   { get; init; }
-    string StorageBucket { get; init; }
-    string ProjectId     { get; init; }
+    string ApiKey                       { get; init; }
+    string AuthDomain                   { get; init; }
+    string DatabaseUrl                  { get; init; }
+    string StorageBucket                { get; init; }
+    string ProjectId                    { get; init; }
+    string GoogleApplicationCredentials { get; init; }
 }

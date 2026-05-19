@@ -1,11 +1,13 @@
 ﻿using Firebase.Auth;
 using Firebase.Auth.Providers;
 using Firebase.Database;
+using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
+using Google.Cloud.Firestore.V1;
 
 namespace LearnItAllApi.Infrastructure1.FirebaseServices;
 
-internal static class FirebaseClientFactory
+public static class FirebaseClientFactory
 {
     public static FirebaseAuthClient CreateAuthClient(this IFirebaseCfg cfg)
     {
@@ -24,6 +26,20 @@ internal static class FirebaseClientFactory
 
     public static FirestoreDb CreateFirestoreClient(this IFirebaseCfg cfg)
     {
-        return FirestoreDb.Create(cfg.ProjectId);
+        var credential = ResolveCredential(cfg.GoogleApplicationCredentials)
+            .CreateScoped("https://www.googleapis.com/auth/cloud-platform",
+                          "https://www.googleapis.com/auth/datastore");
+
+        var firestoreClient = new FirestoreClientBuilder
+        {
+            Credential = credential
+        }.Build();
+
+        return FirestoreDb.Create(cfg.ProjectId, firestoreClient);
     }
+
+    public static GoogleCredential ResolveCredential(string value) =>
+        value.TrimStart().StartsWith('{')
+            ? CredentialFactory.FromJson<ServiceAccountCredential>(value).ToGoogleCredential()
+            : CredentialFactory.FromFile<ServiceAccountCredential>(value).ToGoogleCredential();
 }

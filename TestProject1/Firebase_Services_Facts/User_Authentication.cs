@@ -2,9 +2,9 @@
 using TestProject1.TestTools;
 using Xunit.Abstractions;
 
-namespace TestProject1.FirebaseServicesFacts;
+namespace TestProject1.Firebase_Services_Facts;
 
-public class AuthenticationFacts1 (ITestOutputHelper _ctx)
+public class User_Authentication (ITestOutputHelper _ctx)
 {
     [Fact] public async Task Authentication_SignIn_User()
     {

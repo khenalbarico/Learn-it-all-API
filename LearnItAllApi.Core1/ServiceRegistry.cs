@@ -22,7 +22,7 @@ public static class ServiceRegistry
     public static void RegisterServices(this IServiceCollection svc, IConfiguration cfg)
     {
         AddAppCfg(svc, cfg);
-        InitFirebase();
+        InitFirebase(cfg);
         AddSvcRegistry(svc);
         AddRelayServices(svc);
     }
@@ -40,13 +40,18 @@ public static class ServiceRegistry
         svc.AddSingleton<IFirebaseCfg>(appCfg);
     }
 
-    public static void InitFirebase()
+    public static void InitFirebase(IConfiguration cfg)
     {
         if (FirebaseApp.DefaultInstance != null) return;
 
+        var appCfg = new AppCfg();
+        cfg.GetSection("Firebase").Bind(appCfg);
+
         FirebaseApp.Create(new AppOptions
         {
-            Credential = GoogleCredential.GetApplicationDefault()
+            Credential = CredentialFactory
+                         .FromFile<ServiceAccountCredential>(appCfg.GoogleApplicationCredentials)
+                         .ToGoogleCredential()
         });
     }
 
@@ -57,11 +62,9 @@ public static class ServiceRegistry
         svc.AddSingleton<IRelayDispatcher, RelayDispatcher>();
         svc.AddSingleton<IFirebaseTokenVerifier, FirebaseTokenVerifier>();
 
-        //Google Services
         svc.AddSingleton<IGAdMobService, GAdMobService>();
         svc.AddSingleton<IGBillingService, GBillingService>();
 
-        //Firebase Services
         svc.AddSingleton<IFirebaseAuth, FirebaseAuth>();
         svc.AddSingleton<IFirebaseRealtimeDb, FirebaseRealtimeDb1>();
         svc.AddSingleton<IFirebaseStorage, FirebaseStorage>();

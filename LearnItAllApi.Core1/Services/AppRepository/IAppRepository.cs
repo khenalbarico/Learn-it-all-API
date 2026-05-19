@@ -23,4 +23,7 @@ public interface IAppRepository
 
     [RelayAuthorize]
     Task<bool> UserOwnsBookAsync(string verifiedUid, string bookUid);
+
+    [RelayAuthorize]
+    Task AddBookMetadata(Book book);
 }
