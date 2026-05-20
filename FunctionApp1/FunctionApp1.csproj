@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Secrets\learnitallapp-firebase-adminsdk-fbsvc-8a7ee21c3d.json">
+    <None Update="Secrets\learnitallapp-firebase-adminsdk-fbsvc-7b6ecbb332.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

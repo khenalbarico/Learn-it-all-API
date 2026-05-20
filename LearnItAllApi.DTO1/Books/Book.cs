@@ -11,5 +11,5 @@ public class Book
     [FirestoreProperty] public string  Category    { get; set; } = "";
     [FirestoreProperty] public string  Title       { get; set; } = "";
     [FirestoreProperty] public string  Description { get; set; } = "";
-    [FirestoreProperty] public decimal Price       { get; set; }
+    [FirestoreProperty] public double  Price       { get; set; }
 }
