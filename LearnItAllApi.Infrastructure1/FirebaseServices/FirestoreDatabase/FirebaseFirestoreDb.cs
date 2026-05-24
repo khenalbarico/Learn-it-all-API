@@ -69,6 +69,21 @@ public class FirebaseFirestoreDb(IFirebaseCfg _cfg) : IFirebaseFirestoreDb
         })];
     }
 
+    public async Task<List<T>> GetListWithFilterAsync<T>(
+    string field, object value, params string[] pathSegments) where T : class, new()
+    {
+        var db        = _cfg.CreateFirestoreClient();
+        var colRef    = BuildCollectionRef(db, pathSegments);
+        var query     = colRef.WhereEqualTo(field, value);
+        var snapshots = await query.GetSnapshotAsync();
+        return [.. snapshots.Documents.Select(doc =>
+    {
+        var item = doc.ConvertTo<T>() ?? new T();
+        SetDocumentId(item, doc.Id);
+        return item;
+    })];
+    }
+
     public async Task<string> PostAsync<T>(T item, params string[] pathSegments) where T : class
     {
         var db = _cfg.CreateFirestoreClient();

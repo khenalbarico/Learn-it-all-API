@@ -1,4 +1,5 @@
 ﻿using FirebaseAdmin;
+using LearnItAllApi.Core1;
 using LearnItAllApi.Core1.Services.AppAuthentication;
 using LearnItAllApi.Core1.Services.AppRepository;
 using LearnItAllApi.Core1.Services.AppStorage;
@@ -9,6 +10,8 @@ using LearnItAllApi.Infrastructure1.FirebaseServices.FirestoreDatabase;
 using LearnItAllApi.Infrastructure1.FirebaseServices.FireStoreDatabase;
 using LearnItAllApi.Infrastructure1.FirebaseServices.RealtimeDatabase;
 using LearnItAllApi.Infrastructure1.FirebaseServices.Storage;
+using LearnItAllApi.Infrastructure1.GoogleServices.AdMob;
+using LearnItAllApi.Infrastructure1.GoogleServices.Billing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -47,6 +50,11 @@ internal static class TestOutputHelperExtensions
     {
         var testCfg = new TestCfg();
         cfg.GetSection("Firebase").Bind(testCfg);
+        cfg.GetSection("GoogleAdMob").Bind(testCfg);
+        cfg.GetSection("GoogleBilling").Bind(testCfg);
+
+        svc.AddSingleton<IGAdMobCfg>(testCfg);
+        svc.AddSingleton<IGBillingCfg>(testCfg);
         svc.AddSingleton<IFirebaseCfg>(testCfg);
     }
 

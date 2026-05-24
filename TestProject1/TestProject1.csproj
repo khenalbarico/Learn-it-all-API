@@ -22,20 +22,26 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+	<ItemGroup>
+		<None Update="TestFiles\**">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+	
   <ItemGroup>
-    <None Update="TestFiles\CollegeCourses\InformationSystem\Data Warehousing\Data Warehousing I.pdf">
+    <None Update="TestFiles\CollegeCourse\InformationSystem\Data Warehousing\Data Warehousing I.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="TestFiles\CollegeCourses\InformationSystem\Data Warehousing\Data Warehousing II.pdf">
+    <None Update="TestFiles\CollegeCourse\InformationSystem\Data Warehousing\Data Warehousing II.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="TestFiles\CollegeCourses\InformationSystem\Data Warehousing\Introduction to Data Warehousing.pdf">
+    <None Update="TestFiles\CollegeCourse\InformationSystem\Data Warehousing\Introduction to Data Warehousing.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="TestFiles\CollegeCourses\InformationSystem\Data Warehousing\What is Data Warehouse.pdf">
+    <None Update="TestFiles\CollegeCourse\InformationSystem\Data Warehousing\What is Data Warehouse.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="TestFiles\CollegeCourses\InformationSystem\INFORMATION SYSTEM.png">
+    <None Update="TestFiles\CollegeCourse\InformationSystem\INFORMATION SYSTEM.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="TestFiles\Secrets\learnitallapp-firebase-adminsdk-fbsvc-7b6ecbb332.json">

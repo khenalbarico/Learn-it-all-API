@@ -1,23 +1,23 @@
-﻿using System;
+﻿namespace TestProject1.TestTools;
 
-namespace TestProject1.TestTools;
-
-internal static class TestHelpers
+public static class TestHelpers
 {
-    public static Stream GetFileStream(string fileName)
+    public static Stream GetFileStream(string fullPath)
     {
-        string filePath = Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory,
-            "TestFiles",
-            fileName);
+        if (!File.Exists(fullPath))
+            throw new FileNotFoundException($"Test file not found: {fullPath}");
+        return File.OpenRead(fullPath);
+    }
 
-        if (!File.Exists(filePath))
-        {
-            throw new FileNotFoundException(
-                $"Test file not found: {filePath}");
-        }
+    public static IEnumerable<string> GetFilePaths(string folderPath)
+    {
+        var baseDir    = AppContext.BaseDirectory;
+        var fullFolder = Path.Combine(baseDir, folderPath);
 
-        return File.OpenRead(filePath);
+        if (!Directory.Exists(fullFolder))
+            throw new DirectoryNotFoundException($"Test folder not found: {fullFolder}");
+
+        return Directory.EnumerateFiles(fullFolder, "*", SearchOption.AllDirectories);
     }
 
     public static string GetFolderPath(string relativePath)

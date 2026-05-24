@@ -12,4 +12,5 @@ public class Book
     [FirestoreProperty] public string  Title       { get; set; } = "";
     [FirestoreProperty] public string  Description { get; set; } = "";
     [FirestoreProperty] public double  Price       { get; set; }
+    [FirestoreProperty] public string  CoverUrl    { get; set; } = "";
 }

@@ -41,40 +41,6 @@ public class AppRepository(
         }
     }
 
-    public async Task<IEnumerable<Book>> GetAllBooksAsync(string category)
-    {
-        try
-        {
-            return await _firestore.GetListAsync<Book>("Books", category);
-        }
-        catch (FirebaseFirestoreDbException)
-        {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            FirebaseErrorHandler.ThrowFirestore(ex);
-            throw;
-        }
-    }
-
-    public async Task<Book?> GetBookAsync(string category, string bookUid)
-    {
-        try
-        {
-            return await _firestore.GetAsync<Book>("Books", category, bookUid);
-        }
-        catch (FirebaseFirestoreDbException)
-        {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            FirebaseErrorHandler.ThrowFirestore(ex);
-            throw;
-        }
-    }
-
     public async Task AddToLibraryAsync(string verifiedUid, LibraryEntry entry)
     {
         try
@@ -113,16 +79,29 @@ public class AppRepository(
     {
         try
         {
-            await _firestore.PutAsync(book, "Books", book.Category, book.Uid);
+            await _firestore.PutAsync(book, "Books", book.Uid);
         }
-        catch (FirebaseFirestoreDbException)
+        catch (FirebaseFirestoreDbException) { throw; }
+        catch (Exception ex) { FirebaseErrorHandler.ThrowFirestore(ex); throw; }
+    }
+
+    public async Task<IEnumerable<Book>> GetAllBooksAsync(string category)
+    {
+        try
         {
-            throw;
+            return await _firestore.GetListWithFilterAsync<Book>("Category", category, "Books");
         }
-        catch (Exception ex)
+        catch (FirebaseFirestoreDbException) { throw; }
+        catch (Exception ex) { FirebaseErrorHandler.ThrowFirestore(ex); throw; }
+    }
+
+    public async Task<Book?> GetBookAsync(string category, string bookUid)
+    {
+        try
         {
-            FirebaseErrorHandler.ThrowFirestore(ex);
-            throw;
+            return await _firestore.GetAsync<Book>("Books", bookUid);
         }
+        catch (FirebaseFirestoreDbException) { throw; }
+        catch (Exception ex) { FirebaseErrorHandler.ThrowFirestore(ex); throw; }
     }
 }
