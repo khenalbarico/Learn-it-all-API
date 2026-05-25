@@ -79,5 +79,6 @@ public static class ServiceRegistry
         svc.AddRelaySingleton<IAppAuth, AppAuth>(relayRegistry);
         svc.AddRelaySingleton<IAppRepository, AppRepository>(relayRegistry);
         svc.AddRelaySingleton<IAppStorage, AppStorage>(relayRegistry);
+        svc.AddRelaySingleton<IGAdMobService, GAdMobService>(relayRegistry);
     }
 }
